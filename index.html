@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPRAPOR — Sistem Penilaian Rapor Siswa | SMA Negeri 5 Mars</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- jsPDF + AutoTable -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= HALAMAN LOGIN ================= -->
+  <div id="login-view" class="login-view">
+    <div class="login-blob blob-1"></div>
+    <div class="login-blob blob-2"></div>
+
+    <div class="login-card anim-fade-up" data-testid="login-card">
+      <div class="login-logo">
+        <div class="logo-circle"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h1 class="school-name">SMA Negeri 5 Mars</h1>
+        <p class="school-sub">SIPRAPOR &middot; Sistem Penilaian Rapor Siswa</p>
+      </div>
+
+      <form id="login-form" data-testid="login-form" autocomplete="off">
+        <div class="form-group">
+          <label for="login-username">Username / Email</label>
+          <div class="input-icon">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="login-username" data-testid="login-username-input" class="form-control" placeholder="Masukkan username" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-icon">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="login-password" data-testid="login-password-input" class="form-control" placeholder="Masukkan password" required>
+            <button type="button" id="toggle-password" data-testid="toggle-password-btn" class="toggle-pass" title="Tampilkan / sembunyikan password">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="login-row">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="remember-me" data-testid="remember-me-checkbox">
+            <span>Ingat Saya</span>
+          </label>
+          <a href="#" id="forgot-password" data-testid="forgot-password-link" class="link">Lupa Password?</a>
+        </div>
+
+        <button type="submit" id="login-button" data-testid="login-submit-btn" class="btn btn-primary btn-block">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+      </form>
+
+      <div class="demo-box" data-testid="demo-accounts-box">
+        <p class="demo-title"><i class="fa-solid fa-circle-info"></i> Akun Demo</p>
+        <div class="demo-grid">
+          <span><b>Admin</b> admin / admin123</span>
+          <span><b>Guru</b> guru / guru123</span>
+          <span><b>Murid</b> murid / murid123</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SHELL APLIKASI ================= -->
+  <div id="app" class="app hidden">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar" data-testid="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-circle sm"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div>
+          <h2 class="sidebar-brand">SIPRAPOR</h2>
+          <span class="sidebar-sub">SMA Negeri Nusantara</span>
+        </div>
+      </div>
+
+      <nav id="sidebar-nav" class="sidebar-nav" data-testid="sidebar-nav"></nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar" id="sidebar-avatar">A</div>
+        <div class="sidebar-user">
+          <b id="sidebar-username">-</b>
+          <span id="sidebar-role">-</span>
+        </div>
+        <button id="logout-btn" data-testid="logout-btn" class="icon-btn" title="Keluar">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Konten utama -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="hamburger-btn" data-testid="hamburger-btn" class="icon-btn hamburger" title="Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 id="page-title" class="page-title" data-testid="page-title">Dashboard</h1>
+        </div>
+        <div class="topbar-right">
+          <button id="theme-toggle" data-testid="theme-toggle-btn" class="icon-btn theme-btn" title="Ganti tema">
+            <i class="fa-solid fa-sun"></i><span class="theme-label">Light Mode</span>
+          </button>
+          <div class="user-chip" data-testid="user-chip">
+            <div class="avatar sm" id="topbar-avatar">A</div>
+            <div class="user-chip-info">
+              <b id="topbar-username">-</b>
+              <span id="topbar-role">-</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-content" class="main-content" data-testid="main-content"></main>
+    </div>
+  </div>
+
+  <!-- ================= MODAL & TOAST ================= -->
+  <div id="modal-overlay" class="modal-overlay hidden" data-testid="modal-overlay">
+    <div id="modal-box" class="modal-box" data-testid="modal-box"></div>
+  </div>
+
+  <div id="toast-container" class="toast-container" data-testid="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
